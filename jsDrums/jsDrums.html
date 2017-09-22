@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DrumKit</title>
+	<link rel="stylesheet" type="text/css" href="./jsDrums.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="wallpaper">
+	<img id="background" src="https://4.bp.blogspot.com/-b6uMntdSvS4/V-gmQW6CTvI/AAAAAAAKlB0/tyf-t8w23CIygQTqm4MugL1N9tJB68FdACLcB/s1600/3.jpg"></img>
+</div>
+
+<div class="container buttons">
+	<div class = "keys row container" >
+		<div data-key="65" class="key col-lg-offset-2 col-lg-2 col-md-3 col-sm-6">
+			<kbd>A</kbd>
+			<span class="sound">kick</span>
+		</div>
+		<div data-key="83" class="key col-lg-2 col-md-3 col-sm-6">
+			<kbd>S</kbd>
+			<span class="sound">snare</span>
+		</div>
+		<div data-key="68" class="key col-lg-2 col-md-3 col-sm-6">
+			<kbd>D</kbd>
+			<span class="sound">hi-hat closed</span>
+		</div>
+		<div data-key="70" class="key col-lg-2 col-md-3 col-sm-6">
+			<kbd>F</kbd>
+			<span class="sound">hi-hat open</span>
+		</div>
+	</div>
+	<div class="keys row container">
+		<div data-key="74" class="key col-lg-offset-2 col-lg-2 col-md-3 col-sm-6">
+			<kbd>J</kbd>
+			<span class="sound">perc1</span>
+		</div>
+		<div data-key="75" class="key col-lg-2 col-md-3 col-sm-6">
+			<kbd>K</kbd>
+			<span class="sound">perc2</span>
+		</div>
+		<div data-key="76" class="key col-lg-2 col-md-3 col-sm-6">
+			<kbd>L</kbd>
+			<span class="sound">perc3</span>
+		</div>
+		<div data-key="186" class="key col-lg-2 col-md-3 col-sm-6">
+			<kbd>;</kbd>
+			<span class="sound">perc4</span>
+		</div>
+	</div>
+</div>
+<audio data-key="65" src="sounds/kick1.wav"></audio>
+<audio data-key="83" src="sounds/snare1.wav"></audio>
+<audio data-key="68" src="sounds/hhcl.wav"></audio>
+<audio data-key="70" src="sounds/hhop.wav"></audio>
+<audio data-key="74" src="sounds/perc1.wav"></audio>
+<audio data-key="75" src="sounds/perc2.wav"></audio>
+<audio data-key="76" src="sounds/perc3.wav"></audio>
+<audio data-key="186" src="sounds/perc4.wav"></audio>
+
+<script type="text/javascript">
+
+	function playSound(e) {
+		// translate a key press by key id no. to match wav file
+		const audio= document.querySelector(`audio[data-key="${e.keyCode}"]`);
+		// do same for .key div style modifications
+		const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+		if(!audio) return;
+		audio.currentTime=0;
+		audio.play();
+		// upon key -press, based on ID, change div style
+		key.classList.add('playing');
+	}
+
+	function removeTransition(e){
+		if (e.propertyName !== "transform") return;
+		this.classList.remove('playing'); 
+	}
+	const keys = document.querySelectorAll('.key');
+	keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+	window.addEventListener('keydown', playSound)
+	
+</script>
+</body>
+</html>
